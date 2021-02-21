@@ -5,18 +5,44 @@ import styles from '../styles/Home.module.css'
 export default function Home() {
   const [shitty, setShitty] = useState(null);
   const [windSentence, setWindSentence] = useState(null);
+  const [acceptedGeolocationPermission, setAcceptedGeolocationPermission] = useState(null);
 
-  async function successFunction(position) {
-    const lat = position.coords.latitude;
-    const long = position.coords.longitude;
+  useEffect(() => {
+    navigator.permissions &&
+      navigator.permissions.query({ name: 'geolocation' }).then(({ state }) => {
+        const table = {
+          'granted': () => getPosition(),
+          'denied': () => setAcceptedGeolocationPermission(false)
+        }
 
-    const data = await fetch(`/api/weather?lat=${lat}&long=${long}`);
+        table[state]?.()
+      })
+  }, [])
+
+  function getPosition() {
+    if (navigator?.geolocation) {
+      navigator.geolocation.getCurrentPosition(successFunction, errorFunction);
+    }
+  }
+
+  async function fetchWeatherData({ longitude, latitude }: GeolocationCoordinates) {
+    const data = await fetch(`/api/weather?lat=${latitude}&long=${longitude}`);
     const result = await data.json();
+
+    return result;
+  }
+
+  async function successFunction({ coords }: GeolocationPosition) {
+    setAcceptedGeolocationPermission(true);
+
+    const result = await fetchWeatherData(coords);
+
     const id = result?.result?.weather?.[0]?.id;
     const windSpeed = result?.result?.wind?.speed;
-    if (id)
+    if (id) {
       setShitty(id < 800);
       setWindSentence(getWindSentence(id < 800, windSpeed));
+    }
   }
 
   function getWindSentence(shitty: boolean, windSpeed: number) {
@@ -36,32 +62,51 @@ export default function Home() {
     }
   }
 
-  function errorFunction(e) {
+  function errorFunction(e: GeolocationPositionError) {
+    setAcceptedGeolocationPermission(false);
     console.log(e);
   }
-  useEffect(() => {
-    if (navigator?.geolocation) {
-      navigator.geolocation.getCurrentPosition(successFunction, errorFunction);
-    }
-  }, [])
+
+  function onClickAcceptGeolocation() {
+    getPosition();
+  }
 
   return (
     <div className={styles.container}>
       <AppHead />
       <main className={styles.main}>
-        {shitty !== null ? (
-          <>
-            <h1>{shitty ? 'Ja' : 'Nee'}</h1>
-            <h2>{shitty ? 'het is gewoon ronduit kut vandaag' : 'vandaag even geen kutweer!'}</h2>
-            <h3>{windSentence}</h3>
-          </>
-        ) : <h1>Ff laden hoor...</h1>}
+        {acceptedGeolocationPermission !== null ?
+          <WeatherInfo accepted={acceptedGeolocationPermission} shitty={shitty} windSentence={windSentence} />
+          : <button onClick={onClickAcceptGeolocation}>Doe maar</button>}
       </main>
       <footer className={styles.footer}>
-        Gemaakt door <a href="https://www.martijndorsman.nl" style={{marginLeft: 6}}>Martijn Dorsman</a>
+        Gemaakt door <a href="https://www.martijndorsman.nl" style={{ paddingLeft: 6, paddingRight: 6 }}>Martijn Dorsman</a>
       </footer>
     </div>
   )
+}
+
+type WeatherInfoProps = {
+  shitty: boolean;
+  windSentence: string;
+  accepted: boolean;
+}
+
+function WeatherInfo({ shitty, windSentence, accepted }: WeatherInfoProps) {
+  if (!accepted) {
+    return <h3>Klik op het slotje linksboven en sta 'Locatie' toe! 😁</h3>
+  }
+
+  if (shitty !== null) {
+    return (
+      <>
+        <h1>{shitty ? 'Ja' : 'Nee'}</h1>
+        <h2>{shitty ? 'het is gewoon ronduit kut vandaag' : 'vandaag even geen kutweer!'}</h2>
+        <h3>{windSentence}</h3>
+      </>
+    )
+  }
+  return <h1>Ff laden hoor...</h1>;
 }
 
 function AppHead() {
@@ -72,26 +117,26 @@ function AppHead() {
   const imageURL = '/seo_cover.png'
   return (
     <Head>
-        <title>{title}</title>
-        <meta charSet="utf-8" />
-        <meta name="description" content={description} />
-        <meta
-          name="keywords"
-          content="is,het,vandaag,kutweer"
-        />
-        <meta name="author" content="Martijn Dorsman" />
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      <title>{title}</title>
+      <meta charSet="utf-8" />
+      <meta name="description" content={description} />
+      <meta
+        name="keywords"
+        content="is,het,vandaag,kutweer"
+      />
+      <meta name="author" content="Martijn Dorsman" />
+      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
 
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={siteURL} />
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta property="og:image" content={imageURL} />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content={siteURL} />
+      <meta property="og:title" content={title} />
+      <meta property="og:description" content={description} />
+      <meta property="og:image" content={imageURL} />
 
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content={siteURL} />
-        <meta property="twitter:title" content={title} />
-        <meta property="twitter:description" content={description} />
-      </Head>
+      <meta property="twitter:card" content="summary_large_image" />
+      <meta property="twitter:url" content={siteURL} />
+      <meta property="twitter:title" content={title} />
+      <meta property="twitter:description" content={description} />
+    </Head>
   )
 }
