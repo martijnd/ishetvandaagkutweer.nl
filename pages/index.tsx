@@ -71,16 +71,25 @@ export default function Home() {
     getPosition();
   }
 
+  function GeoPermissionPrompt() {
+    return (
+      <div>
+        <h2>Mag ik je locatie weten?</h2>
+        <button className={styles.button} onClick={onClickAcceptGeolocation}>Vooruit dan maar</button>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.container}>
       <AppHead />
       <main className={styles.main}>
         {acceptedGeolocationPermission !== null ?
           <WeatherInfo accepted={acceptedGeolocationPermission} shitty={shitty} windSentence={windSentence} />
-          : <button onClick={onClickAcceptGeolocation}>Doe maar</button>}
+          : <GeoPermissionPrompt />}
       </main>
       <footer className={styles.footer}>
-        Gemaakt door <a href="https://www.martijndorsman.nl" style={{ paddingLeft: 6, paddingRight: 6 }}>Martijn Dorsman</a>
+        Gemaakt door <a href="https://www.martijndorsman.nl">Martijn Dorsman</a>
       </footer>
     </div>
   )

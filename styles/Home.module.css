@@ -7,9 +7,8 @@
   justify-content: center;
   align-items: center;
   background-color: #121212;
-  color: #eee
+  color: #eee;
 }
-
 
 .main {
   padding: 5rem 0;
@@ -23,7 +22,6 @@
 .main h1 {
   font-size: 4rem;
   margin: 0;
-
 }
 
 .footer {
@@ -37,6 +35,30 @@
 
 .footer a {
   text-decoration: underline;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding: 20px 6px;
+}
+
+.button {
+  border: 1px solid white;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 0 10px 1px rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  will-change: auto;
+  transition: all 0.2s ease;
+  padding: 1rem 2rem;
+}
+
+.button:focus {
+  outline: 3px solid rgb(104, 105, 107);
+  background-color: #eee;
+  color: black;
+}
+
+.button:hover {
+  background-color: #fff;
+  color: black;
+  box-shadow: 0 0 10px 10px rgba(255, 255, 255, 0.2);
 }
