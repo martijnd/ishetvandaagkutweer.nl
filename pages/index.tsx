@@ -69,7 +69,7 @@ function AppHead() {
   const description = `Wanneer je wil weten of het vandaag kutweer is, 
     maar geen ramen in je huis hebt om doorheen naar buiten te kunnen kijken.`
   const siteURL = 'https://ishetvandaagkutweer.nl'
-  const imageURL = ''
+  const imageURL = '/seo_cover.png'
   return (
     <Head>
         <title>{title}</title>
