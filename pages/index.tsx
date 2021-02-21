@@ -47,10 +47,8 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
-      <Head>
-        <title>Is het vandaag kutweer?</title>
-      </Head>
-      <main>
+      <AppHead />
+      <main className={styles.main}>
         {shitty !== null ? (
           <>
             <h1>{shitty ? 'Ja' : 'Nee'}</h1>
@@ -59,6 +57,41 @@ export default function Home() {
           </>
         ) : <h1>Ff laden hoor...</h1>}
       </main>
+      <footer className={styles.footer}>
+        Gemaakt door <a href="https://www.martijndorsman.nl" style={{marginLeft: 6}}>Martijn Dorsman</a>
+      </footer>
     </div>
+  )
+}
+
+function AppHead() {
+  const title = 'Is het vandaag kutweer?'
+  const description = `Wanneer je wil weten of het vandaag kutweer is, 
+    maar geen ramen in je huis hebt om doorheen naar buiten te kunnen kijken.`
+  const siteURL = 'https://ishetvandaagkutweer.nl'
+  const imageURL = ''
+  return (
+    <Head>
+        <title>{title}</title>
+        <meta charSet="utf-8" />
+        <meta name="description" content={description} />
+        <meta
+          name="keywords"
+          content="workshops, studiekeuze, scholieren, studenten, docenten"
+        />
+        <meta name="author" content="Tim van Setten van der Meer" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={siteURL} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={imageURL} />
+
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content={siteURL} />
+        <meta property="twitter:title" content={title} />
+        <meta property="twitter:description" content={description} />
+      </Head>
   )
 }
