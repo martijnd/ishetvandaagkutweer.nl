@@ -16,7 +16,7 @@ export default function Home() {
     const windSpeed = result?.result?.wind?.speed;
     if (id)
       setShitty(id < 800);
-      setWindSentence(getWindSentence(shitty, windSpeed));
+      setWindSentence(getWindSentence(id < 800, windSpeed));
   }
 
   function getWindSentence(shitty: boolean, windSpeed: number) {
