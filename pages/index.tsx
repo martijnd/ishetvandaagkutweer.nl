@@ -77,9 +77,9 @@ function AppHead() {
         <meta name="description" content={description} />
         <meta
           name="keywords"
-          content="workshops, studiekeuze, scholieren, studenten, docenten"
+          content="weer"
         />
-        <meta name="author" content="Tim van Setten van der Meer" />
+        <meta name="author" content="Martijn Dorsman" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
 
         <meta property="og:type" content="website" />
