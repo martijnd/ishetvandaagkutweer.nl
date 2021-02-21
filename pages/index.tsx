@@ -77,7 +77,7 @@ function AppHead() {
         <meta name="description" content={description} />
         <meta
           name="keywords"
-          content="weer"
+          content="is,het,vandaag,kutweer"
         />
         <meta name="author" content="Martijn Dorsman" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
