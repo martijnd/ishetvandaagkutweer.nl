@@ -60,13 +60,13 @@ export default function Home() {
       }
 
       return "Maar het waait wel hard"
-    } else {
-      if (shitty) {
-        return "Gelukkig waait het niet hard"
-      }
-
-      return "En het waait nauwelijks"
     }
+
+    if (shitty) {
+      return "Gelukkig waait het niet hard"
+    }
+
+    return "En het waait nauwelijks"
   }
 
   function errorFunction(e: GeolocationPositionError) {
