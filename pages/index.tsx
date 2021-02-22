@@ -90,19 +90,25 @@ export default function Home() {
     )
   }
 
+  function WeatherInfoContainer() {
+    if (acceptedGeolocationPermission === null) {
+      return <GeoPermissionPrompt />
+    }
+
+    return (
+      <WeatherInfo
+        accepted={acceptedGeolocationPermission}
+        shitty={shitty}
+        windSentence={windSentence}
+      />
+    )
+  }
+
   return (
     <div className={styles.container}>
       <AppHead />
       <main className={styles.main}>
-        {acceptedGeolocationPermission !== null ? (
-          <WeatherInfo
-            accepted={acceptedGeolocationPermission}
-            shitty={shitty}
-            windSentence={windSentence}
-          />
-        ) : (
-          <GeoPermissionPrompt />
-        )}
+        <WeatherInfoContainer />
       </main>
       <footer className={styles.footer}>
         Gemaakt door <a href="https://www.martijndorsman.nl">Martijn Dorsman</a>
