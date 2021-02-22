@@ -43,12 +43,14 @@
   background: transparent;
   color: white;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 1rem;
   box-shadow: 0 0 10px 1px rgba(255, 255, 255, 0.2);
   border-radius: 3px;
   will-change: auto;
   transition: all 0.2s ease;
   padding: 1rem 2rem;
+  width: 100%;
 }
 
 .button:focus {

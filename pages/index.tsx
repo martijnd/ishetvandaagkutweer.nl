@@ -81,12 +81,12 @@ export default function Home() {
 
   function GeoPermissionPrompt() {
     return (
-      <div>
+      <>
         <h2>Mag ik je locatie weten?</h2>
         <button className={styles.button} onClick={onClickAcceptGeolocation}>
           Vooruit dan maar
         </button>
-      </div>
+      </>
     )
   }
 
@@ -124,7 +124,7 @@ type WeatherInfoProps = {
 }
 
 function WeatherInfo({ shitty, windSentence, accepted }: WeatherInfoProps) {
-  if (accepted === null) {
+  if (accepted === false) {
     return <h3>Klik op het slotje linksboven en sta 'Locatie' toe! 😁</h3>
   }
 
