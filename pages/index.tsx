@@ -135,5 +135,5 @@ function WeatherInfo({ shitty, windSentence, accepted }: WeatherInfoProps) {
       </>
     )
   }
-  return <h2>Ff laden hoor...</h2>
+  return <h2></h2>
 }
