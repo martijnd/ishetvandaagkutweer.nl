@@ -1,0 +1,15 @@
+{
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "headers": [
+        {
+          "key": "cache-control",
+          "value": "max-age=432000"
+        }
+      ],
+      "dest": "/api/$1",
+      "continue": true
+    }
+  ]
+}
