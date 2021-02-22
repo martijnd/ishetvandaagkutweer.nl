@@ -10,6 +10,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const speed = result?.wind?.speed
 
   // cache response for 12 hours
-  res.setHeader("Cache-Control", `s-maxage=${60 * 60 * 12}`)
+  res.setHeader("Cache-Control", `public, maxage=${60 * 60 * 12}, immutable`)
   res.status(200).json({ id, speed })
 }

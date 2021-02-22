@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react"
-import styles from "../styles/Home.module.css"
-import AppHead from "../components/AppHead"
+import { useEffect, useState } from 'react'
+import styles from '../styles/Home.module.css'
+import AppHead from '../components/AppHead'
 
 export default function Home() {
   const [shitty, setShitty] = useState(null)
@@ -12,7 +12,7 @@ export default function Home() {
 
   useEffect(() => {
     navigator.permissions &&
-      navigator.permissions.query({ name: "geolocation" }).then(({ state }) => {
+      navigator.permissions.query({ name: 'geolocation' }).then(({ state }) => {
         const table = {
           granted: () => getPosition(),
           denied: () => setAcceptedGeolocationPermission(false),
@@ -33,7 +33,15 @@ export default function Home() {
     longitude,
     latitude,
   }: GeolocationCoordinates) {
-    const data = await fetch(`/api/weather?lat=${latitude}&long=${longitude}`)
+    const round = (number: number) => Math.round(number * 100) / 100
+    const data = await fetch(
+      `/api/weather?lat=${round(latitude)}&long=${round(longitude)}`,
+      {
+        headers: {
+          'Cache-Control': `public, maxage=${60 * 60 * 12}, immutable`,
+        },
+      }
+    )
     const result = await data.json()
 
     return result
@@ -42,7 +50,7 @@ export default function Home() {
   async function successFunction({ coords }: GeolocationPosition) {
     setAcceptedGeolocationPermission(true)
 
-    const {id, speed} = await fetchWeatherData(coords)
+    const { id, speed } = await fetchWeatherData(coords)
 
     if (id && speed) {
       setShitty(id < 800)
@@ -54,17 +62,17 @@ export default function Home() {
     const rounded = Math.round(windSpeed)
     if (rounded > 8) {
       if (shitty) {
-        return "En het waait tyfus hard"
+        return 'En het waait tyfus hard'
       }
 
-      return "Maar het waait wel hard"
+      return 'Maar het waait wel hard'
     }
 
     if (shitty) {
-      return "Gelukkig waait het niet hard"
+      return 'Gelukkig waait het niet hard'
     }
 
-    return "En het waait nauwelijks"
+    return 'En het waait nauwelijks'
   }
 
   function errorFunction(e: GeolocationPositionError) {
@@ -122,17 +130,15 @@ function WeatherInfo({ shitty, windSentence, accepted }: WeatherInfoProps) {
   if (shitty !== null) {
     return (
       <>
-        <h1>{shitty ? "Ja" : "Nee"}</h1>
+        <h1>{shitty ? 'Ja' : 'Nee'}</h1>
         <h2>
           {shitty
-            ? "het is gewoon ronduit kut vandaag"
-            : "vandaag even geen kutweer!"}
+            ? 'het is gewoon ronduit kut vandaag'
+            : 'vandaag even geen kutweer!'}
         </h2>
         <h3>{windSentence}</h3>
       </>
     )
   }
-  return <h2></h2>
+  return <h2>Ff laden hoor...</h2>
 }
-
-
