@@ -5,7 +5,7 @@
       "headers": [
         {
           "key": "cache-control",
-          "value": "max-age=432000"
+          "value": "max-age=43200"
         }
       ],
       "dest": "/api/$1",
