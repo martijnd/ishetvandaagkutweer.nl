@@ -35,12 +35,7 @@ export default function Home() {
   }: GeolocationCoordinates) {
     const round = (number: number) => Math.round(number * 100) / 100
     const data = await fetch(
-      `/api/weather?lat=${round(latitude)}&long=${round(longitude)}`,
-      {
-        headers: {
-          'Cache-Control': `public, maxage=${60 * 60 * 12}, immutable`,
-        },
-      }
+      `/api/weather?lat=${round(latitude)}&long=${round(longitude)}`
     )
     const result = await data.json()
 
