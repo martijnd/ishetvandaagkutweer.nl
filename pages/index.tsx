@@ -42,13 +42,11 @@ export default function Home() {
   async function successFunction({ coords }: GeolocationPosition) {
     setAcceptedGeolocationPermission(true)
 
-    const result = await fetchWeatherData(coords)
+    const {id, speed} = await fetchWeatherData(coords)
 
-    const id = result?.result?.weather?.[0]?.id
-    const windSpeed = result?.result?.wind?.speed
-    if (id) {
+    if (id && speed) {
       setShitty(id < 800)
-      setWindSentence(getWindSentence(id < 800, windSpeed))
+      setWindSentence(getWindSentence(id < 800, speed))
     }
   }
 
@@ -134,7 +132,7 @@ function WeatherInfo({ shitty, windSentence, accepted }: WeatherInfoProps) {
       </>
     )
   }
-  return <h2>Ff laden hoor...</h2>
+  return <h2></h2>
 }
 
 

@@ -6,6 +6,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const data = await fetch(url);
     const result = await data.json();
 
-    res.status(200).json({ result })
+    const id = result?.weather?.[0]?.id;
+    const speed = result?.wind?.speed;
+
+    res.status(200).json({ id, speed })
   }
   
