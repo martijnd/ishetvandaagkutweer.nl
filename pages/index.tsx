@@ -11,7 +11,7 @@ export default function Home() {
   ] = useState(undefined)
 
   useEffect(() => {
-    navigator.permissions &&
+    if (navigator.permissions) {
       navigator.permissions.query({ name: 'geolocation' }).then(({ state }) => {
         const table = {
           granted: () => getPosition(),
@@ -21,34 +21,40 @@ export default function Home() {
 
         table[state]?.()
       })
+    } else {
+      getPosition()
+    }
   }, [])
+
+  async function setDefault() {
+    // Set default
+    const { id, speed } = await fetchWeatherData()
+
+    if (id && speed) {
+      setShitty(id < 800)
+      setWindSentence(getWindSentence(id < 800, speed))
+    }
+  }
 
   async function getPosition() {
     if (navigator?.geolocation) {
       navigator.geolocation.getCurrentPosition(successFunction, errorFunction)
     } else {
-      // Set default
-      const { id, speed } = await fetchWeatherData()
-
-      if (id && speed) {
-        setShitty(id < 800)
-        setWindSentence(getWindSentence(id < 800, speed))
-      }
+      setDefault()
     }
   }
 
-  async function fetchWeatherData({
-    longitude,
-    latitude,
-  }: GeolocationCoordinates = {
-    accuracy: 1357,
-    altitude: null,
-    altitudeAccuracy: null,
-    heading: null,
-    latitude: 52.0,
-    longitude: 4.49,
-    speed: null,
-  }) {
+  async function fetchWeatherData(
+    { longitude, latitude }: GeolocationCoordinates = {
+      accuracy: 1357,
+      altitude: null,
+      altitudeAccuracy: null,
+      heading: null,
+      latitude: 52.0,
+      longitude: 4.49,
+      speed: null,
+    }
+  ) {
     const round = (number: number) => Math.round(number * 100) / 100
     const data = await fetch(
       `/api/weather?lat=${round(latitude)}&long=${round(longitude)}`
@@ -87,8 +93,8 @@ export default function Home() {
   }
 
   function errorFunction(e: GeolocationPositionError) {
-    setAcceptedGeolocationPermission(false)
-    console.log(e)
+    setAcceptedGeolocationPermission(true)
+    setDefault()
   }
 
   function onClickAcceptGeolocation() {
