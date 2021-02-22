@@ -5,14 +5,15 @@ import styles from '../styles/Home.module.css'
 export default function Home() {
   const [shitty, setShitty] = useState(null);
   const [windSentence, setWindSentence] = useState(null);
-  const [acceptedGeolocationPermission, setAcceptedGeolocationPermission] = useState(null);
+  const [acceptedGeolocationPermission, setAcceptedGeolocationPermission] = useState(undefined);
 
   useEffect(() => {
     navigator.permissions &&
       navigator.permissions.query({ name: 'geolocation' }).then(({ state }) => {
         const table = {
           'granted': () => getPosition(),
-          'denied': () => setAcceptedGeolocationPermission(false)
+          'denied': () => setAcceptedGeolocationPermission(false),
+          'prompt': () => setAcceptedGeolocationPermission(null)
         }
 
         table[state]?.()
@@ -102,7 +103,7 @@ type WeatherInfoProps = {
 }
 
 function WeatherInfo({ shitty, windSentence, accepted }: WeatherInfoProps) {
-  if (!accepted) {
+  if (accepted === null) {
     return <h3>Klik op het slotje linksboven en sta 'Locatie' toe! 😁</h3>
   }
 
@@ -115,7 +116,7 @@ function WeatherInfo({ shitty, windSentence, accepted }: WeatherInfoProps) {
       </>
     )
   }
-  return <h1>Ff laden hoor...</h1>;
+  return <h2>Ff laden hoor...</h2>;
 }
 
 function AppHead() {
