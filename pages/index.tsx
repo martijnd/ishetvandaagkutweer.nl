@@ -22,7 +22,7 @@ export default function Home() {
         table[state]?.()
       })
     } else {
-      getPosition()
+      setAcceptedGeolocationPermission(null)
     }
   }, [])
 
