@@ -9,7 +9,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const id = result?.weather?.[0]?.id
   const speed = result?.wind?.speed
 
-  // cache response for 12 hours
-  res.setHeader("Cache-Control", `public,max-age=${60 * 60 * 12},immutable`)
+  // cache response for 30 minutes
+  res.setHeader("Cache-Control", `public,max-age=${60 * 30},immutable`)
   res.status(200).json({ id, speed })
 }
