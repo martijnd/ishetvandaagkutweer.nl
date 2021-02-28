@@ -2,6 +2,7 @@ import "../styles/globals.css"
 import { useRouter } from "next/router"
 import * as gtag from "@/lib/gtag"
 import { useEffect } from "react"
+import "../styles/nprogress.css";
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter()

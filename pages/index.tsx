@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import NProgress from 'nprogress'
 import styles from '../styles/Home.module.css'
 import AppHead from '../components/AppHead'
 
@@ -28,6 +29,7 @@ export default function Home() {
 
   async function setDefault() {
     // Set default
+    console.info('Setting default.')
     const { id, speed } = await fetchWeatherData()
 
     if (id && speed) {
@@ -37,6 +39,7 @@ export default function Home() {
   }
 
   async function getPosition() {
+    NProgress.start()
     if (navigator?.geolocation) {
       navigator.geolocation.getCurrentPosition(successFunction, errorFunction)
     } else {
@@ -60,6 +63,7 @@ export default function Home() {
       `/api/weather?lat=${round(latitude)}&long=${round(longitude)}`
     )
     const result = await data.json()
+    NProgress.done()
 
     return result
   }
